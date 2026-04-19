@@ -64,7 +64,11 @@ export default function App() {
   return (
     <div className="app">
       <nav className="navbar">
-        <div className="nav-brand" onDoubleClick={() => setShowAdminPanel(true)}>⚡ <span>BoostBids</span></div>
+        <div className="nav-brand" onDoubleClick={() => {
+          const pw = prompt('Admin password:');
+          if (pw === 'topaz2024admin') setShowAdminPanel(true);
+          else if (pw !== null) alert('Wrong password');
+        }}>⚡ <span>BoostBids</span></div>
         <div className="nav-links">
           <a href="#marketplace">Marketplace</a>
           <a href="#featured">Featured</a>
