@@ -6,6 +6,10 @@ const cors = require('cors');
 const listingsRouter = require('./routes/listings');
 const bidsRouter = require('./routes/bids');
 const messagesRouter = require('./routes/messages');
+const authRouter = require('./routes/auth');
+const usersRouter = require('./routes/users');
+const reviewsRouter = require('./routes/reviews');
+const notificationsRouter = require('./routes/notifications');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -17,6 +21,10 @@ app.use(express.json());
 app.use('/api/listings', listingsRouter);
 app.use('/api/bids', bidsRouter);
 app.use('/api/messages', messagesRouter);
+app.use('/api/auth', authRouter);
+app.use('/api/users', usersRouter);
+app.use('/api/reviews', reviewsRouter);
+app.use('/api/notifications', notificationsRouter);
 
 mongoose
   .connect(MONGO_URI)

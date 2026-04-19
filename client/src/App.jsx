@@ -7,10 +7,14 @@ import Disclaimer from './components/Disclaimer'
 import CreateListingModal from './components/CreateListingModal'
 import BidModal from './components/BidModal'
 import ChatModal from './components/ChatModal'
+import AuthModal from './components/AuthModal'
+import NotificationBell from './components/NotificationBell'
+import { useAuth } from './context/AuthContext'
 
 const API = 'https://boostbids-production.up.railway.app'
 
 export default function App() {
+  const { user, logout } = useAuth()
   const [listings, setListings] = useState([])
   const [loading, setLoading] = useState(true)
   const [selectedGame, setSelectedGame] = useState('All')
@@ -18,6 +22,7 @@ export default function App() {
   const [showCreateModal, setShowCreateModal] = useState(false)
   const [showBidModal, setShowBidModal] = useState(false)
   const [showChatModal, setShowChatModal] = useState(false)
+  const [showAuthModal, setShowAuthModal] = useState(false)
   const [selectedListing, setSelectedListing] = useState(null)
   const [createType, setCreateType] = useState('offer')
 
@@ -49,7 +54,10 @@ export default function App() {
 
   const openBid = (listing) => { setSelectedListing(listing); setShowBidModal(true) }
   const openChat = (listing) => { setSelectedListing(listing); setShowChatModal(true) }
-  const openCreate = (type = 'offer') => { setCreateType(type); setShowCreateModal(true) }
+  const openCreate = (type = 'offer') => {
+    if (!user) { setShowAuthModal(true); return }
+    setCreateType(type); setShowCreateModal(true)
+  }
 
   return (
     <div className="app">
@@ -59,6 +67,15 @@ export default function App() {
           <a href="#marketplace">Marketplace</a>
           <a href="#featured">Featured</a>
           <a href="#monetize">Go Pro</a>
+          <NotificationBell />
+          {user ? (
+            <>
+              <span style={{ color: '#aaa', fontSize: 14 }}>👤 {user.username}</span>
+              <button className="btn-secondary" onClick={logout} style={{ padding: '6px 14px', fontSize: 13 }}>Logout</button>
+            </>
+          ) : (
+            <button className="btn-secondary" onClick={() => setShowAuthModal(true)} style={{ padding: '6px 14px', fontSize: 13 }}>Login</button>
+          )}
           <button className="btn-primary" onClick={() => openCreate('offer')}>Post Listing</button>
         </div>
       </nav>
@@ -104,6 +121,9 @@ export default function App() {
           listing={selectedListing}
           onClose={() => setShowChatModal(false)}
         />
+      )}
+      {showAuthModal && (
+        <AuthModal onClose={() => setShowAuthModal(false)} />
       )}
     </div>
   )
