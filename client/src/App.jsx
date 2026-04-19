@@ -8,7 +8,7 @@ import CreateListingModal from './components/CreateListingModal'
 import BidModal from './components/BidModal'
 import ChatModal from './components/ChatModal'
 
-const API = 'http://localhost:5000'
+const API = 'https://boostbids-production.up.railway.app'
 
 export default function App() {
   const [listings, setListings] = useState([])
