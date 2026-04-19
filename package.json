@@ -2,10 +2,10 @@
   "name": "boostbids",
   "version": "1.0.0",
   "scripts": {
-    "install:server": "cd server && npm install",
-    "install:client": "cd client && npm install",
-    "seed": "cd server && node seed.js",
-    "server": "cd server && node index.js",
-    "client": "cd client && npm run dev"
+    "start": "node server/index.js",
+    "install-server": "cd server && npm install"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
