@@ -9,6 +9,7 @@ import BidModal from './components/BidModal'
 import ChatModal from './components/ChatModal'
 import AuthModal from './components/AuthModal'
 import NotificationBell from './components/NotificationBell'
+import AdminPanel from './components/AdminPanel'
 import { useAuth } from './context/AuthContext'
 
 const API = 'https://boostbids-production.up.railway.app'
@@ -23,6 +24,7 @@ export default function App() {
   const [showBidModal, setShowBidModal] = useState(false)
   const [showChatModal, setShowChatModal] = useState(false)
   const [showAuthModal, setShowAuthModal] = useState(false)
+  const [showAdminPanel, setShowAdminPanel] = useState(false)
   const [selectedListing, setSelectedListing] = useState(null)
   const [createType, setCreateType] = useState('offer')
 
@@ -62,7 +64,7 @@ export default function App() {
   return (
     <div className="app">
       <nav className="navbar">
-        <div className="nav-brand">⚡ <span>BoostBids</span></div>
+        <div className="nav-brand" onDoubleClick={() => setShowAdminPanel(true)}>⚡ <span>BoostBids</span></div>
         <div className="nav-links">
           <a href="#marketplace">Marketplace</a>
           <a href="#featured">Featured</a>
@@ -124,6 +126,9 @@ export default function App() {
       )}
       {showAuthModal && (
         <AuthModal onClose={() => setShowAuthModal(false)} />
+      )}
+      {showAdminPanel && (
+        <AdminPanel onClose={() => setShowAdminPanel(false)} />
       )}
     </div>
   )
