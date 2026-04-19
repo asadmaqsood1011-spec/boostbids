@@ -7,6 +7,7 @@ const listingSchema = new mongoose.Schema({
   description: { type: String, required: true },
   price: { type: Number, required: true },
   seller: { type: String, required: true },
+  sellerId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   rating: { type: Number, default: 0, min: 0, max: 5 },
   verified: { type: Boolean, default: false },
   featured: { type: Boolean, default: false },

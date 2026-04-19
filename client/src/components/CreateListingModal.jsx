@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useAuth } from '../context/AuthContext'
 
 const GAMES = [
   'Call of Duty',
@@ -12,6 +13,7 @@ const GAMES = [
 ]
 
 export default function CreateListingModal({ api, defaultType, onClose, onCreated }) {
+  const { user } = useAuth()
   const [form, setForm] = useState({
     type: defaultType || 'offer',
     game: 'Call of Duty',
@@ -37,7 +39,7 @@ export default function CreateListingModal({ api, defaultType, onClose, onCreate
       const res = await fetch(`${api}/api/listings`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, price: Number(form.price) }),
+        body: JSON.stringify({ ...form, price: Number(form.price), sellerId: user?.id, seller: user?.username || form.seller }),
       })
       if (!res.ok) throw new Error('Failed to create listing')
       onCreated()
