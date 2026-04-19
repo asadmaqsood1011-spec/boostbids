@@ -10,6 +10,7 @@ import ChatModal from './components/ChatModal'
 import AuthModal from './components/AuthModal'
 import NotificationBell from './components/NotificationBell'
 import AdminPanel from './components/AdminPanel'
+import ActivityFeed from './components/ActivityFeed'
 import { useAuth } from './context/AuthContext'
 
 const API = 'https://boostbids-production.up.railway.app'
@@ -99,6 +100,11 @@ export default function App() {
         onChat={openChat}
         onCreateListing={() => openCreate('offer')}
       />
+      <div style={{ maxWidth: 1280, margin: '0 auto', padding: '40px 32px 0' }}>
+        <div style={{ fontSize: '1.3rem', fontWeight: 800, marginBottom: 6 }}>🟢 Live <span style={{ color: '#3d8bff' }}>Activity</span></div>
+        <div style={{ color: '#8aa3c1', fontSize: '0.88rem', marginBottom: 16 }}>What's happening right now</div>
+        <ActivityFeed />
+      </div>
       <MonetizationSection />
       <Disclaimer />
 

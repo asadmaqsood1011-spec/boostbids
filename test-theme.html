@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BoostBids - Black & Blue Theme Test</title>
+<style>
+  :root {
+    --bg: #080c14;
+    --bg2: #0d1220;
+    --bg3: #111827;
+    --card: #0f1624;
+    --card-hover: #141d2e;
+    --border: #1e2d45;
+    --accent: #1d6ef5;
+    --accent2: #3d8bff;
+    --cyan: #00d4ff;
+    --green: #00e676;
+    --yellow: #ffd600;
+    --red: #ff1744;
+    --text: #e8f0fe;
+    --text-muted: #8aa3c1;
+    --text-dim: #4a6380;
+    --radius: 14px;
+    --radius-sm: 9px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    background-image:
+      radial-gradient(ellipse 60% 50% at 10% 20%, rgba(29,110,245,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 40% at 90% 70%, rgba(0,212,255,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 30% at 50% 90%, rgba(29,110,245,0.06) 0%, transparent 50%);
+    background-attachment: fixed;
+  }
+
+  /* NAVBAR */
+  .navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 40px;
+    background: rgba(8,12,20,0.95);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .nav-brand { font-size: 1.5rem; font-weight: 900; letter-spacing: -1px; }
+  .nav-brand span { color: var(--accent2); }
+  .nav-links { display: flex; align-items: center; gap: 24px; }
+  .nav-links a { color: var(--text-muted); font-size: 0.9rem; text-decoration: none; font-weight: 500; }
+  .nav-links a:hover { color: var(--text); }
+
+  /* BUTTONS */
+  .btn-primary {
+    background: linear-gradient(135deg, #1d6ef5, #0047cc);
+    color: #fff;
+    border: none;
+    padding: 10px 22px;
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 0.9rem;
+    box-shadow: 0 0 20px rgba(29,110,245,0.4);
+    transition: all 0.2s;
+  }
+  .btn-primary:hover { box-shadow: 0 0 30px rgba(29,110,245,0.7); transform: translateY(-1px); }
+  .btn-secondary {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 9px 20px;
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    padding: 100px 40px;
+    text-align: center;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(29,110,245,0.15) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 40% at 20% 80%, rgba(0,212,255,0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    display: inline-block;
+    background: rgba(29,110,245,0.15);
+    border: 1px solid rgba(29,110,245,0.3);
+    color: var(--accent2);
+    padding: 6px 18px;
+    border-radius: 99px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    margin-bottom: 24px;
+    letter-spacing: 0.5px;
+  }
+  .hero h1 {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -2px;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #e8f0fe 30%, #3d8bff 70%, #00d4ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero p {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    max-width: 500px;
+    margin: 0 auto 36px;
+    line-height: 1.7;
+  }
+  .hero-actions { display: flex; gap: 14px; justify-content: center; margin-bottom: 60px; }
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+    margin-top: 24px;
+  }
+  .hero-stat .num { font-size: 1.8rem; font-weight: 900; color: var(--accent2); }
+  .hero-stat .lbl { font-size: 0.8rem; color: var(--text-dim); margin-top: 2px; }
+
+  /* CARDS */
+  .section { padding: 60px 40px; max-width: 1200px; margin: 0 auto; }
+  .section-title { font-size: 1.6rem; font-weight: 800; margin-bottom: 6px; }
+  .section-title span { color: var(--accent2); }
+  .section-sub { color: var(--text-muted); margin-bottom: 28px; font-size: 0.9rem; }
+
+  .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 18px; }
+
+  .card {
+    background: rgba(255,255,255,0.04);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius);
+    padding: 20px;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--cyan));
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+  .card:hover {
+    background: rgba(255,255,255,0.07);
+    border-color: rgba(29,110,245,0.35);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(29,110,245,0.1), inset 0 1px 0 rgba(255,255,255,0.1);
+  }
+  .card:hover::before { opacity: 1; }
+
+  .card-featured {
+    background: rgba(255,214,0,0.04);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-color: rgba(255,214,0,0.2);
+    box-shadow: 0 0 30px rgba(255,214,0,0.05);
+  }
+  .card-featured::before { background: linear-gradient(90deg, #ffd600, #ff9100); opacity: 1; }
+
+  .badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 99px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .badge-offer { background: rgba(29,110,245,0.15); color: var(--accent2); border: 1px solid rgba(29,110,245,0.3); }
+  .badge-request { background: rgba(0,230,118,0.1); color: var(--green); border: 1px solid rgba(0,230,118,0.2); }
+  .badge-featured { background: rgba(255,214,0,0.1); color: var(--yellow); border: 1px solid rgba(255,214,0,0.2); }
+  .badge-verified { background: rgba(0,214,255,0.1); color: var(--cyan); border: 1px solid rgba(0,214,255,0.2); }
+
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+  .card-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+  .card-price { font-size: 1.4rem; font-weight: 900; color: var(--accent2); }
+  .card-title { font-size: 1rem; font-weight: 700; margin-bottom: 6px; color: var(--text); }
+  .card-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 14px; }
+  .card-meta { display: flex; align-items: center; gap: 12px; font-size: 0.78rem; color: var(--text-dim); margin-bottom: 14px; }
+  .card-actions { display: flex; gap: 10px; }
+  .card-actions button { flex: 1; padding: 9px; border-radius: var(--radius-sm); font-size: 0.85rem; font-weight: 600; cursor: pointer; border: none; }
+  .card-actions .bid-btn { background: linear-gradient(135deg, #1d6ef5, #0047cc); color: #fff; box-shadow: 0 0 16px rgba(29,110,245,0.3); }
+  .card-actions .chat-btn { background: var(--bg3); color: var(--text-muted); border: 1px solid var(--border); }
+
+  /* ACTIVITY FEED */
+  .activity-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .activity-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); flex-shrink: 0; }
+  .activity-text { font-size: 0.85rem; color: var(--text-muted); }
+  .activity-text strong { color: var(--text); }
+  .activity-time { margin-left: auto; font-size: 0.75rem; color: var(--text-dim); white-space: nowrap; }
+
+  /* LEADERBOARD */
+  .lb-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 10px;
+    transition: all 0.2s;
+  }
+  .lb-item:hover { border-color: rgba(29,110,245,0.3); }
+  .lb-rank { font-size: 1.2rem; font-weight: 900; width: 32px; text-align: center; }
+  .lb-rank.gold { color: #ffd600; }
+  .lb-rank.silver { color: #b0bec5; }
+  .lb-rank.bronze { color: #ff9100; }
+  .lb-info { flex: 1; }
+  .lb-name { font-weight: 700; font-size: 0.95rem; }
+  .lb-sub { font-size: 0.78rem; color: var(--text-dim); margin-top: 2px; }
+  .lb-rating { font-size: 1rem; font-weight: 800; color: var(--yellow); }
+  .lb-badge { background: rgba(0,214,255,0.1); color: var(--cyan); border: 1px solid rgba(0,214,255,0.2); font-size: 0.7rem; padding: 2px 8px; border-radius: 99px; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  @media (max-width: 768px) { .two-col { grid-template-columns: 1fr; } .hero-stats { gap: 24px; } }
+
+  .glow-line {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(29,110,245,0.5), rgba(0,212,255,0.5), transparent);
+    margin: 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-brand">⚡ <span>BoostBids</span></div>
+  <div class="nav-links">
+    <a href="#">Marketplace</a>
+    <a href="#">Featured</a>
+    <a href="#">Leaderboard</a>
+    🔔
+    <button class="btn-secondary" style="padding:6px 14px;font-size:13px">Login</button>
+    <button class="btn-primary">Post Listing</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">🎮 Gaming Boost Marketplace</div>
+  <h1>Find Your Boost.<br>Win Your Game.</h1>
+  <p>Connect with pro boosters or post your own request. Browse verified offers — no middleman, just results.</p>
+  <div class="hero-actions">
+    <button class="btn-primary" style="padding:14px 32px;font-size:1rem">🚀 Post an Offer</button>
+    <button class="btn-secondary" style="padding:14px 32px;font-size:1rem;color:#e8f0fe">💬 Post a Request</button>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="num">500+</div><div class="lbl">Active Listings</div></div>
+    <div class="hero-stat"><div class="num">1.2k+</div><div class="lbl">Pro Boosters</div></div>
+    <div class="hero-stat"><div class="num">8</div><div class="lbl">Games</div></div>
+    <div class="hero-stat"><div class="num">4.9★</div><div class="lbl">Avg Rating</div></div>
+  </div>
+</section>
+
+<div class="glow-line"></div>
+
+<!-- LISTINGS + ACTIVITY -->
+<div class="section">
+  <div class="two-col">
+    <!-- LISTINGS -->
+    <div>
+      <div class="section-title">🔥 Featured <span>Listings</span></div>
+      <div class="section-sub">Top-rated boosters ready to go</div>
+      <div style="display:flex;flex-direction:column;gap:16px">
+
+        <div class="card card-featured">
+          <div class="card-top">
+            <div class="card-badges">
+              <span class="badge badge-featured">⭐ Featured</span>
+              <span class="badge badge-verified">✅ Verified</span>
+              <span class="badge badge-offer">Offer</span>
+            </div>
+            <div class="card-price">$45</div>
+          </div>
+          <div class="card-title">Diamond Rank Boost — Valorant Fast & Safe</div>
+          <div class="card-desc">Reach Diamond in 24-48h. 100% win rate guarantee. VPN included. 500+ boosts completed.</div>
+          <div class="card-meta">
+            <span>🎮 VALORANT</span>
+            <span>⏱ 24-48h</span>
+            <span>⭐ 4.9 (128)</span>
+          </div>
+          <div class="card-actions">
+            <button class="bid-btn">💰 Place Bid</button>
+            <button class="chat-btn">💬 Chat</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-top">
+            <div class="card-badges">
+              <span class="badge badge-request">Request</span>
+            </div>
+            <div class="card-price">$30</div>
+          </div>
+          <div class="card-title">Need WoW Raid Carry — Heroic</div>
+          <div class="card-desc">Looking for experienced players to carry me through Heroic raid. Budget $30.</div>
+          <div class="card-meta">
+            <span>🎮 World of Warcraft</span>
+            <span>⏱ Flexible</span>
+            <span>⭐ New</span>
+          </div>
+          <div class="card-actions">
+            <button class="bid-btn">💰 Place Bid</button>
+            <button class="chat-btn">💬 Chat</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ACTIVITY + LEADERBOARD -->
+    <div>
+      <div class="section-title">🟢 Live <span>Activity</span></div>
+      <div class="section-sub">What's happening right now</div>
+      <div style="margin-bottom:32px">
+        <div class="activity-item">
+          <div class="activity-dot"></div>
+          <div class="activity-text"><strong>ProBooster99</strong> completed a Valorant boost for $45</div>
+          <div class="activity-time">2m ago</div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-dot" style="background:#1d6ef5;box-shadow:0 0 8px #1d6ef5"></div>
+          <div class="activity-text"><strong>SkillzKing</strong> posted a new WoW listing</div>
+          <div class="activity-time">5m ago</div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-dot" style="background:#ffd600;box-shadow:0 0 8px #ffd600"></div>
+          <div class="activity-text"><strong>NightOwl</strong> left a ⭐⭐⭐⭐⭐ review</div>
+          <div class="activity-time">8m ago</div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-dot"></div>
+          <div class="activity-text"><strong>GhostRank</strong> placed a $60 bid on a Rocket League boost</div>
+          <div class="activity-time">12m ago</div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-dot" style="background:#1d6ef5;box-shadow:0 0 8px #1d6ef5"></div>
+          <div class="activity-text"><strong>XtremeBoost</strong> joined as a verified booster</div>
+          <div class="activity-time">20m ago</div>
+        </div>
+      </div>
+
+      <div class="section-title">🏆 <span>Leaderboard</span></div>
+      <div class="section-sub">Top rated boosters this month</div>
+      <div class="lb-item">
+        <div class="lb-rank gold">🥇</div>
+        <div class="lb-info">
+          <div class="lb-name">ProBooster99</div>
+          <div class="lb-sub">VALORANT · 128 reviews</div>
+        </div>
+        <span class="lb-badge">✅ Verified</span>
+        <div class="lb-rating">4.9★</div>
+      </div>
+      <div class="lb-item">
+        <div class="lb-rank silver">🥈</div>
+        <div class="lb-info">
+          <div class="lb-name">SkillzKing</div>
+          <div class="lb-sub">WoW · 94 reviews</div>
+        </div>
+        <span class="lb-badge">✅ Verified</span>
+        <div class="lb-rating">4.8★</div>
+      </div>
+      <div class="lb-item">
+        <div class="lb-rank bronze">🥉</div>
+        <div class="lb-info">
+          <div class="lb-name">GhostRank</div>
+          <div class="lb-sub">Rocket League · 67 reviews</div>
+        </div>
+        <div class="lb-rating">4.7★</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
