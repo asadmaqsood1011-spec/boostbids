@@ -1,74 +1,123 @@
-# ⚡ BoostBids — Gaming Boost Marketplace
+# Boost Bids ðŸŽ®
 
-A clean MERN stack posting board for gaming boosting services.
+> A full-stack gaming boosting marketplace where players can buy and sell rank boosting services for Valorant, Call of Duty, and Rocket League.
 
-## Stack
-- **Frontend:** React 18 + Vite (port 5173)
-- **Backend:** Node.js + Express (port 5000)
-- **Database:** MongoDB + Mongoose
+**Live:** [boostbids.org](https://boostbids.org)
 
-## Setup
+---
 
-### Prerequisites
-- Node.js 18+
-- MongoDB running locally on `mongodb://localhost:27017`
+## Screenshots
 
-### 1. Install dependencies
+> _Add a screenshot of your homepage and listing page here_
 
-```bash
-# Server
-cd server && npm install
+---
 
-# Client
-cd ../client && npm install
+## Features
+
+- ðŸ—‚ **Browse listings** by game category (Valorant, CoD, Rocket League)
+- â­ **Ratings & reviews** â€” buyers can rate sellers after completion
+- âœ… **Verified seller badges** â€” trust signals for top boosters
+- ðŸ’¬ **In-app messaging** â€” buyers and sellers communicate directly
+- ðŸ”” **Notifications** â€” real-time alerts for bids, messages, and reviews
+- ðŸ” **Auth system** â€” JWT-based registration and login
+- ðŸ›  **Admin panel** â€” manage listings and users
+- ðŸ“¦ **18+ live listings** seeded into production database
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Frontend | React, Vite, CSS |
+| Backend | Node.js, Express.js |
+| Database | MongoDB (Mongoose) |
+| Auth | JWT |
+| Deployment | Railway |
+
+---
+
+## Architecture
+
+```
+boostbids/
+â”œâ”€â”€ client/                 # React frontend (Vite)
+â”‚   â””â”€â”€ src/
+â”‚       â”œâ”€â”€ components/     # UI components
+â”‚       â”œâ”€â”€ context/        # React context (auth, state)
+â”‚       â””â”€â”€ App.jsx
+â”‚
+â””â”€â”€ server/                 # Node.js/Express backend
+    â”œâ”€â”€ models/             # Mongoose schemas
+    â”‚   â”œâ”€â”€ User.js
+    â”‚   â”œâ”€â”€ Listing.js
+    â”‚   â”œâ”€â”€ Bid.js
+    â”‚   â”œâ”€â”€ Review.js
+    â”‚   â”œâ”€â”€ Message.js
+    â”‚   â””â”€â”€ Notification.js
+    â”œâ”€â”€ routes/             # REST API routes
+    â”‚   â”œâ”€â”€ auth.js         # POST /api/auth/register, /login
+    â”‚   â”œâ”€â”€ listings.js     # CRUD /api/listings
+    â”‚   â”œâ”€â”€ bids.js         # POST /api/bids
+    â”‚   â”œâ”€â”€ reviews.js      # POST /api/reviews
+    â”‚   â”œâ”€â”€ messages.js     # GET/POST /api/messages
+    â”‚   â”œâ”€â”€ notifications.js
+    â”‚   â”œâ”€â”€ users.js
+    â”‚   â””â”€â”€ admin.js
+    â”œâ”€â”€ middleware/
+    â”œâ”€â”€ seed.js             # Database seeder
+    â””â”€â”€ index.js            # Entry point
 ```
 
-### 2. Seed the database
+---
+
+## Run Locally
+
+**Prerequisites:** Node.js 18+, MongoDB
 
 ```bash
-cd server && node seed.js
+# Clone
+git clone https://github.com/asadmaqsood1011-spec/boostbids.git
+cd boostbids
+
+# Backend
+cd server
+npm install
+cp .env.example .env   # add your MONGO_URI and JWT_SECRET
+node index.js
+
+# Frontend (new terminal)
+cd client
+npm install
+npm run dev
 ```
 
-This will add 16 sample listings across all 8 games + bids + messages.
-
-### 3. Run the app
-
-Open **two terminals**:
-
-**Terminal 1 — Backend:**
-```bash
-cd server && node index.js
-```
-
-**Terminal 2 — Frontend:**
-```bash
-cd client && npm run dev
-```
-
-### 4. Open the app
-
-👉 http://localhost:5173
+---
 
 ## API Endpoints
 
-| Method | Route | Description |
-|--------|-------|-------------|
-| GET | /api/listings | Get all listings (supports ?game= filter) |
-| POST | /api/listings | Create a listing |
-| GET | /api/bids/:listingId | Get bids for a listing |
-| POST | /api/bids | Place a bid |
-| GET | /api/messages/:listingId | Get messages for a listing |
-| POST | /api/messages | Post a message |
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/auth/register` | Register new user |
+| POST | `/api/auth/login` | Login, returns JWT |
+| GET | `/api/listings` | Get all listings |
+| POST | `/api/listings` | Create a listing |
+| POST | `/api/bids` | Place a bid |
+| POST | `/api/reviews` | Submit a review |
+| GET | `/api/messages/:userId` | Get messages |
 
-## Games Supported
-- Call of Duty
-- World of Warcraft
-- Lost Ark
-- Warframe
-- Final Fantasy XIV
-- Escape from Tarkov
-- VALORANT
-- Rocket League
+---
 
-## Disclaimer
-BoostBids is a posting board only. No payment processing. All deals happen independently between users.
+## Deployment
+
+Deployed on **Railway** with automatic deploys from `main` branch.
+
+- Backend: `node server/index.js`
+- Frontend: Dockerized React app
+- Database: MongoDB hosted on Railway
+
+---
+
+## Author
+
+**Asad Maqsood** â€” [github.com/asadmaqsood1011-spec](https://github.com/asadmaqsood1011-spec)
